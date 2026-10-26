@@ -72,7 +72,13 @@ python src/validate_data.py --data data --out outputs/validation_summary.json
 # 6. Launch the Interactive Web Dashboard Server
 python src/app.py --port 8080
 ```
-Open **[http://127.0.0.1:8080](http://127.0.0.1:8080)** in your browser to explore the interactive workbench!
+## 🚀 Live Demo
+
+**Live Dashboard:** https://yotaflex-freight-audit.onrender.com
+
+Explore the Freight Invoice Audit Dashboard to review invoice validation results, audit exceptions, and freight billing discrepancies.
+
+**GitHub Repository:** https://github.com/aniskudachi/yotaflex_freight_audit
 
 ---
 
