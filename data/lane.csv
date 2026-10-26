@@ -1,0 +1,13 @@
+lane_id,origin_code,origin_city,origin_state,destination_code,destination_city,destination_state,distance_km,transit_days_std,transit_days_exp
+LANE-0001,BLR,Bengaluru,KA,BOM,Mumbai,MH,365,1,1
+LANE-0002,BLR,Bengaluru,KA,DEL,Delhi,DL,430,1,1
+LANE-0003,BLR,Bengaluru,KA,MAA,Chennai,TN,495,1,1
+LANE-0004,BLR,Bengaluru,KA,HYD,Hyderabad,TS,560,1,1
+LANE-0005,BLR,Bengaluru,KA,PNQ,Pune,MH,625,1,1
+LANE-0006,BLR,Bengaluru,KA,CCU,Kolkata,WB,690,1,1
+LANE-0007,BLR,Bengaluru,KA,COK,Kochi,KL,755,1,1
+LANE-0008,BLR,Bengaluru,KA,AMD,Ahmedabad,GJ,820,1,1
+LANE-0009,BLR,Bengaluru,KA,JAI,Jaipur,RJ,885,1,1
+LANE-0010,BOM,Mumbai,MH,BLR,Bengaluru,KA,950,2,1
+LANE-0011,BOM,Mumbai,MH,DEL,Delhi,DL,1015,2,1
+LANE-0012,BOM,Mumbai,MH,MAA,Chennai,TN,1080,2,1

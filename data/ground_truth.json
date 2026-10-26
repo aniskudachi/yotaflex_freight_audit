@@ -1,0 +1,114 @@
+[
+  {
+    "case_id": "GT-000001",
+    "invoice_id": "FINV-2026-000010",
+    "issue_type": "UNKNOWN_SHIPMENT",
+    "expected_decision": "REJECT",
+    "expected_variance": "623.73",
+    "details": "Invoice references non-existent shipment SHP-2026-999999."
+  },
+  {
+    "case_id": "GT-000002",
+    "invoice_id": "FINV-2026-000025",
+    "issue_type": "UNKNOWN_SHIPMENT",
+    "expected_decision": "REJECT",
+    "expected_variance": "567.71",
+    "details": "Invoice references non-existent shipment SHP-2026-999999."
+  },
+  {
+    "case_id": "GT-000003",
+    "invoice_id": "FINV-2026-000035",
+    "issue_type": "EXPIRED_RATE_CARD",
+    "expected_decision": "REJECT",
+    "expected_variance": "0.00",
+    "details": "Invoice uses expired tariff RATE-CAR-000005-2025-01-L0010-STA-T4 (expired 2025-12-31)."
+  },
+  {
+    "case_id": "GT-000004",
+    "invoice_id": "FINV-2026-000045",
+    "issue_type": "EXPIRED_RATE_CARD",
+    "expected_decision": "REJECT",
+    "expected_variance": "0.00",
+    "details": "Invoice uses expired tariff RATE-CAR-000005-2025-01-L0004-EXP-T3 (expired 2025-12-31)."
+  },
+  {
+    "case_id": "GT-000005",
+    "invoice_id": "FINV-2026-000055",
+    "issue_type": "WEIGHT_TIER_MISMATCH",
+    "expected_decision": "REVIEW",
+    "expected_variance": "75.00",
+    "details": "Base freight billed at higher tier; overcharge of $75.00."
+  },
+  {
+    "case_id": "GT-000006",
+    "invoice_id": "FINV-2026-000065",
+    "issue_type": "WEIGHT_TIER_MISMATCH",
+    "expected_decision": "REVIEW",
+    "expected_variance": "75.00",
+    "details": "Base freight billed at higher tier; overcharge of $75.00."
+  },
+  {
+    "case_id": "GT-000007",
+    "invoice_id": "FINV-2026-000075",
+    "issue_type": "DUPLICATE_SURCHARGE",
+    "expected_decision": "REJECT",
+    "expected_variance": "55.68",
+    "details": "Duplicate fuel surcharge line of $55.68."
+  },
+  {
+    "case_id": "GT-000008",
+    "invoice_id": "FINV-2026-000085",
+    "issue_type": "DUPLICATE_SURCHARGE",
+    "expected_decision": "REJECT",
+    "expected_variance": "60.83",
+    "details": "Duplicate fuel surcharge line of $60.83."
+  },
+  {
+    "case_id": "GT-000009",
+    "invoice_id": "FINV-2026-000095",
+    "issue_type": "INVALID_ACCESSORIAL",
+    "expected_decision": "REJECT",
+    "expected_variance": "50.00",
+    "details": "Unapproved DETENTION accessorial fee of $50.00."
+  },
+  {
+    "case_id": "GT-000010",
+    "invoice_id": "FINV-2026-000105",
+    "issue_type": "INVALID_ACCESSORIAL",
+    "expected_decision": "REJECT",
+    "expected_variance": "50.00",
+    "details": "Unapproved DETENTION accessorial fee of $50.00."
+  },
+  {
+    "case_id": "GT-000011",
+    "invoice_id": "FINV-2026-000115",
+    "issue_type": "DUPLICATE_INVOICE",
+    "expected_decision": "REJECT",
+    "expected_variance": "399.78",
+    "details": "Duplicate invoice billing for already-billed shipment SHP-2026-000105."
+  },
+  {
+    "case_id": "GT-000012",
+    "invoice_id": "FINV-2026-000125",
+    "issue_type": "DUPLICATE_INVOICE",
+    "expected_decision": "REJECT",
+    "expected_variance": "567.71",
+    "details": "Duplicate invoice billing for already-billed shipment SHP-2026-000105."
+  },
+  {
+    "case_id": "GT-000013",
+    "invoice_id": "FINV-2026-000135",
+    "issue_type": "EXCESS_CREDIT",
+    "expected_decision": "REVIEW",
+    "expected_variance": "0.00",
+    "details": "Credit note issued for amount exceeding approved dispute limit."
+  },
+  {
+    "case_id": "GT-000014",
+    "invoice_id": "FINV-2026-000145",
+    "issue_type": "EXCESS_CREDIT",
+    "expected_decision": "REVIEW",
+    "expected_variance": "0.00",
+    "details": "Credit note issued for amount exceeding approved dispute limit."
+  }
+]

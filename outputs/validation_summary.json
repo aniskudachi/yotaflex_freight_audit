@@ -1,0 +1,279 @@
+{
+  "status": "PASSED",
+  "total_checks": 40,
+  "passed_checks": 40,
+  "failed_checks": 0,
+  "all_checks_passed": true,
+  "table_counts": {
+    "accessorial.csv": 25,
+    "audit_event_history.csv": 150,
+    "audit_exception.csv": 14,
+    "carrier.csv": 10,
+    "credit_note.csv": 6,
+    "freight_invoice.csv": 150,
+    "ground_truth.csv": 14,
+    "invoice_line.csv": 323,
+    "lane.csv": 12,
+    "rate_card.csv": 1920,
+    "shipment.csv": 200,
+    "shipment_leg.csv": 200,
+    "weight_measurement.csv": 200
+  },
+  "checks": [
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "carrier.csv: unique PK 'carrier_id'",
+      "passed": true,
+      "details": "Total 10 rows, 10 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "lane.csv: unique PK 'lane_id'",
+      "passed": true,
+      "details": "Total 12 rows, 12 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "rate_card.csv: unique PK 'rate_id'",
+      "passed": true,
+      "details": "Total 1920 rows, 1920 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "shipment.csv: unique PK 'shipment_id'",
+      "passed": true,
+      "details": "Total 200 rows, 200 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "shipment_leg.csv: unique PK 'leg_id'",
+      "passed": true,
+      "details": "Total 200 rows, 200 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "weight_measurement.csv: unique PK 'measurement_id'",
+      "passed": true,
+      "details": "Total 200 rows, 200 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "accessorial.csv: unique PK 'accessorial_id'",
+      "passed": true,
+      "details": "Total 25 rows, 25 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "freight_invoice.csv: unique PK 'invoice_id'",
+      "passed": true,
+      "details": "Total 150 rows, 150 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "invoice_line.csv: unique PK 'line_id'",
+      "passed": true,
+      "details": "Total 323 rows, 323 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "audit_exception.csv: unique PK 'exception_id'",
+      "passed": true,
+      "details": "Total 14 rows, 14 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "credit_note.csv: unique PK 'credit_note_id'",
+      "passed": true,
+      "details": "Total 6 rows, 6 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "audit_event_history.csv: unique PK 'event_id'",
+      "passed": true,
+      "details": "Total 150 rows, 150 unique IDs."
+    },
+    {
+      "category": "PRIMARY_KEY_UNIQUENESS",
+      "check": "ground_truth.csv: unique PK 'case_id'",
+      "passed": true,
+      "details": "Total 14 rows, 14 unique IDs."
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "rate_card -> carrier.carrier_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "rate_card -> lane.lane_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "shipment -> carrier, lane, rate_card",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "shipment_leg -> shipment.shipment_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "weight_measurement -> shipment.shipment_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "accessorial -> shipment.shipment_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "freight_invoice -> carrier.carrier_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "freight_invoice -> rate_card.rate_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "freight_invoice -> shipment.shipment_id (allowing labelled UNKNOWN_SHIPMENT anomalies)",
+      "passed": true,
+      "details": "Verified 2 controlled test anomaly cases."
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "invoice_line -> freight_invoice.invoice_id",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "audit_exception -> freight_invoice, carrier",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "FOREIGN_KEY_INTEGRITY",
+      "check": "credit_note -> audit_exception, invoice, carrier",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "carrier.csv.status in ['ACTIVE', 'INACTIVE', 'SUSPENDED']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "carrier.csv.payment_terms in ['NET15', 'NET30', 'NET45', 'NET60']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "rate_card.csv.service in ['EXPRESS', 'STANDARD']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "rate_card.csv.status in ['ACTIVE', 'EXPIRED', 'SUPERSEDED']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "shipment.csv.service in ['EXPRESS', 'STANDARD']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "shipment.csv.delivery_status in ['DELIVERED', 'EXCEPTION', 'IN_TRANSIT']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "accessorial.csv.code in ['APPOINTMENT_DELIVERY', 'DETENTION', 'HAZMAT', 'INSIDE_PICKUP', 'LIFTGATE', 'RESIDENTIAL']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "invoice_line.csv.line_type in ['APPOINTMENT_DELIVERY', 'BASE', 'DETENTION', 'FUEL', 'HAZMAT', 'INSIDE_PICKUP', 'LIFTGATE', 'RESIDENTIAL']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "ENUM_VALIDATION",
+      "check": "freight_invoice.csv.status in ['APPROVED', 'AUDITED', 'DISPUTED', 'RECEIVED', 'REJECTED']",
+      "passed": true,
+      "details": "All values match allowed enums."
+    },
+    {
+      "category": "DATE_ORDERING",
+      "check": "rate_card: effective_from <= effective_to",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "DATE_ORDERING",
+      "check": "shipment: ship_date <= delivery_date",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "DATE_ORDERING",
+      "check": "freight_invoice: invoice_date >= shipment.delivery_date",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "ARITHMETIC_RECONCILIATION",
+      "check": "shipment: dimensional_weight_kg == round((L*W*H)/5000, 2)",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "ARITHMETIC_RECONCILIATION",
+      "check": "shipment: chargeable_weight_kg == max(actual_weight, dim_weight)",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "category": "ARITHMETIC_RECONCILIATION",
+      "check": "freight_invoice: billed_total == sum(invoice_line.amount)",
+      "passed": true,
+      "details": ""
+    }
+  ],
+  "sha256": {
+    "accessorial.csv": "66cef7379dc9406cbdebf210245688682a12b586c554ba08e83d33b90587a1df",
+    "audit_event_history.csv": "6a16f333f11006ea69ab86238fd514f6a0a8b317a0c3d388b35c63e6c99cb138",
+    "audit_exception.csv": "e710220b2e06bbb69707d9fcca63e5725ef78f03f592787e20ad54f698fe00e4",
+    "carrier.csv": "aaf323bc8a70370b14fbe49657ece479dea3209aabce65c993c48425c59ade58",
+    "credit_note.csv": "fb80d42f812e35f21ed7c30c7e912ad85065e284075853c9411b95d10d546fb9",
+    "freight_invoice.csv": "8765a14a1ad5846296d7d2fd004b5fc989b072f610e2757eb84424a3d8808203",
+    "ground_truth.csv": "d13f09dba91408cfb4ee3febc0cd98ed630a5fe4cd7e7e564ef3746ef183756a",
+    "invoice_line.csv": "5cfbacb664971724d9b2f9749b10a35fa81a127e7c12c068442f3fb40f4186c2",
+    "lane.csv": "cfe11c9aa23fb4e33b6358a2f43743ca8f9910c4f632363d8e54a7db0c8dbd91",
+    "rate_card.csv": "9bd995c2adfe344ec85e7d0ccf18b00c9d2538e82151c86577cee1b97c6547b2",
+    "shipment.csv": "17083ff49227582fb417912e15ae51949990cf3d5ebbc95a778c766df4336a82",
+    "shipment_leg.csv": "cbf25c9b986179ee96f31adf7b19b6c7fe0093b45b1f73ee89cc2f093b89ba78",
+    "weight_measurement.csv": "4e1e1e2088b4dacc42bf0a94cdd76268c5e08b225c31b0b439be323f6d8f0e73"
+  }
+}

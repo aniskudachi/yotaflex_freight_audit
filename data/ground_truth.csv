@@ -1,0 +1,15 @@
+case_id,invoice_id,issue_type,expected_decision,expected_variance,details
+GT-000001,FINV-2026-000010,UNKNOWN_SHIPMENT,REJECT,623.73,Invoice references non-existent shipment SHP-2026-999999.
+GT-000002,FINV-2026-000025,UNKNOWN_SHIPMENT,REJECT,567.71,Invoice references non-existent shipment SHP-2026-999999.
+GT-000003,FINV-2026-000035,EXPIRED_RATE_CARD,REJECT,0.00,Invoice uses expired tariff RATE-CAR-000005-2025-01-L0010-STA-T4 (expired 2025-12-31).
+GT-000004,FINV-2026-000045,EXPIRED_RATE_CARD,REJECT,0.00,Invoice uses expired tariff RATE-CAR-000005-2025-01-L0004-EXP-T3 (expired 2025-12-31).
+GT-000005,FINV-2026-000055,WEIGHT_TIER_MISMATCH,REVIEW,75.00,Base freight billed at higher tier; overcharge of $75.00.
+GT-000006,FINV-2026-000065,WEIGHT_TIER_MISMATCH,REVIEW,75.00,Base freight billed at higher tier; overcharge of $75.00.
+GT-000007,FINV-2026-000075,DUPLICATE_SURCHARGE,REJECT,55.68,Duplicate fuel surcharge line of $55.68.
+GT-000008,FINV-2026-000085,DUPLICATE_SURCHARGE,REJECT,60.83,Duplicate fuel surcharge line of $60.83.
+GT-000009,FINV-2026-000095,INVALID_ACCESSORIAL,REJECT,50.00,Unapproved DETENTION accessorial fee of $50.00.
+GT-000010,FINV-2026-000105,INVALID_ACCESSORIAL,REJECT,50.00,Unapproved DETENTION accessorial fee of $50.00.
+GT-000011,FINV-2026-000115,DUPLICATE_INVOICE,REJECT,399.78,Duplicate invoice billing for already-billed shipment SHP-2026-000105.
+GT-000012,FINV-2026-000125,DUPLICATE_INVOICE,REJECT,567.71,Duplicate invoice billing for already-billed shipment SHP-2026-000105.
+GT-000013,FINV-2026-000135,EXCESS_CREDIT,REVIEW,0.00,Credit note issued for amount exceeding approved dispute limit.
+GT-000014,FINV-2026-000145,EXCESS_CREDIT,REVIEW,0.00,Credit note issued for amount exceeding approved dispute limit.

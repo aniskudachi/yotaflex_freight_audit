@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "total_invoices_audited": 150,
+    "pass_count": 136,
+    "review_count": 4,
+    "reject_count": 10,
+    "total_exceptions_logged": 18,
+    "total_credit_notes_validated": 6
+  },
+  "financial_metrics": {
+    "total_billed_spend_usd": 80896.31,
+    "total_contracted_expected_spend_usd": 79334.37,
+    "total_discrepancy_overcharge_usd": 440.5,
+    "potential_audit_savings_roi_pct": 0.54
+  },
+  "ground_truth_evaluation": {
+    "anomalies_injected": 14,
+    "anomalies_detected": 14,
+    "clean_invoices": 136,
+    "true_positives": 14,
+    "false_positives": 0,
+    "true_negatives": 136,
+    "false_negatives": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "detection_rate_by_issue_type": {
+      "UNKNOWN_SHIPMENT": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "EXPIRED_RATE_CARD": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "WEIGHT_TIER_MISMATCH": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "DUPLICATE_SURCHARGE": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "INVALID_ACCESSORIAL": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "DUPLICATE_INVOICE": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      },
+      "EXCESS_CREDIT": {
+        "injected": 2,
+        "detected": 2,
+        "rate": 1.0
+      }
+    }
+  },
+  "decision_distribution": {
+    "PASS": 136,
+    "REJECT": 10,
+    "REVIEW": 4
+  },
+  "audit_policy_notes": "Ground truth is strictly isolated for benchmark scoring. Decisions derive 100% from contract rate cards and shipment characteristics."
+}

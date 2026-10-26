@@ -1,0 +1,15 @@
+# Python virtual environments & bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.DS_Store
+
+# Temporary outputs & SQLite database binaries
+outputs/*.db
+*.db
+outputs_full/
+data_full/
+temp_data/

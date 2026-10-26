@@ -1,0 +1,11 @@
+carrier_id,carrier_name,scac_code,contact_email,phone,payment_terms,status,created_at
+CAR-000001,Apex Freight 001,C001,billing@c001.freight.com,+1-555-101-1001,NET15,ACTIVE,2025-09-28
+CAR-000002,SwiftHaul Logistics 002,C002,billing@c002.freight.com,+1-555-102-1002,NET45,ACTIVE,2025-09-25
+CAR-000003,Blue Dart Express 003,C003,billing@c003.freight.com,+1-555-103-1003,NET60,ACTIVE,2025-09-22
+CAR-000004,TransGlobal Carriers 004,C004,billing@c004.freight.com,+1-555-104-1004,NET30,ACTIVE,2025-09-19
+CAR-000005,Pinnacle Line 005,C005,billing@c005.freight.com,+1-555-105-1005,NET15,ACTIVE,2025-09-16
+CAR-000006,Vanguard Logistics 006,C006,billing@c006.freight.com,+1-555-106-1006,NET45,ACTIVE,2025-09-13
+CAR-000007,Titan Freightway 007,C007,billing@c007.freight.com,+1-555-107-1007,NET60,ACTIVE,2025-09-10
+CAR-000008,Pacific Cargo 008,C008,billing@c008.freight.com,+1-555-108-1008,NET30,ACTIVE,2025-09-07
+CAR-000009,Eagle Freight 009,C009,billing@c009.freight.com,+1-555-109-1009,NET15,ACTIVE,2025-09-04
+CAR-000010,Beacon Transport 010,C010,billing@c010.freight.com,+1-555-110-1010,NET45,ACTIVE,2025-09-01

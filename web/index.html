@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freight Invoice Validation & Audit System</title>
+  <meta name="description" content="End-to-end freight invoice audit, contracted rate verification, 3-way matching, discrepancy resolution, and settlement platform.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h1 class="brand-title">YotaFlex Freight Audit</h1>
+          <span class="brand-tag">v2.0 • Deterministic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="Main Navigation">
+      <button class="nav-tab active" data-tab="tab-workbench" id="nav-btn-workbench">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Audit Workbench
+      </button>
+      <button class="nav-tab" data-tab="tab-exceptions" id="nav-btn-exceptions">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Exceptions & Disputes
+      </button>
+      <button class="nav-tab" data-tab="tab-credits" id="nav-btn-credits">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Credit Notes
+      </button>
+      <button class="nav-tab" data-tab="tab-evaluation" id="nav-btn-evaluation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Model Evaluation
+      </button>
+      <button class="nav-tab" data-tab="tab-validation" id="nav-btn-validation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Integrity Checks
+      </button>
+    </nav>
+
+    <!-- Header Actions & Persona Selector -->
+    <div class="header-controls">
+      <div class="role-selector" title="Switch active actor persona to test role-specific workflows">
+        <span>Actor:</span>
+        <select id="role-select" aria-label="Actor Persona Selector">
+          <option value="Logistics Analyst">Logistics Analyst</option>
+          <option value="Operations Manager">Operations Manager</option>
+          <option value="Planner">Logistics Planner</option>
+          <option value="Carrier / Warehouse Operator">Carrier / Warehouse Operator</option>
+        </select>
+      </div>
+
+      <button class="btn btn-secondary" id="btn-regen-starter" title="Regenerate Starter scale dataset (10 carriers, 200 shipments, 150 invoices)">
+        Starter
+      </button>
+      <button class="btn btn-secondary" id="btn-regen-full" title="Regenerate Full baseline scale (100 carriers, 20,000 shipments, 15,000 invoices)">
+        Full Scale
+      </button>
+      <button class="btn btn-primary" id="btn-run-audit" title="Re-run the audit engine across all operational invoices">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Run Audit
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main>
+
+    <!-- KPI Metric Cards Banner -->
+    <section class="kpi-grid" aria-label="Executive KPIs">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Invoices Audited</span>
+          <div class="kpi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-total-invoices">-</div>
+        <div class="kpi-sub">
+          <span class="text-pass" id="kpi-pass-count">- Pass</span> •
+          <span class="text-review" id="kpi-review-count">- Review</span> •
+          <span class="text-reject" id="kpi-reject-count">- Reject</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Total Billed Spend</span>
+          <div class="kpi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value" id="kpi-total-billed">-</div>
+        <div class="kpi-sub">Contracted freight & surcharges</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Discrepancy Overcharge</span>
+          <div class="kpi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value text-reject" id="kpi-discrepancy-savings">-</div>
+        <div class="kpi-sub">
+          <span class="text-pass" id="kpi-roi-pct">-%</span> Recoverable Audit ROI
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Ground Truth Recall</span>
+          <div class="kpi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+        </div>
+        <div class="kpi-value text-pass" id="kpi-recall">100.0%</div>
+        <div class="kpi-sub">
+          Accuracy: <span class="text-pass" id="kpi-accuracy">100.0%</span> • 0 False Positives
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 1: Audit Workbench -->
+    <div id="tab-workbench" class="tab-content active">
+      <section class="workbench">
+        <!-- Toolbar with Filter Controls -->
+        <div class="workbench-toolbar">
+          <div class="filter-group">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="search-input" class="search-input" placeholder="Search invoice, shipment, carrier...">
+            </div>
+
+            <select id="filter-decision" class="select-filter" aria-label="Filter by Decision">
+              <option value="">All Decisions</option>
+              <option value="PASS">PASS (Clean)</option>
+              <option value="REVIEW">REVIEW (Discrepancy)</option>
+              <option value="REJECT">REJECT (Hard Failure)</option>
+            </select>
+
+            <select id="filter-carrier" class="select-filter" aria-label="Filter by Carrier">
+              <option value="">All Carriers</option>
+            </select>
+
+            <select id="filter-issue" class="select-filter" aria-label="Filter by Issue Type">
+              <option value="">All Issue Types</option>
+              <option value="UNKNOWN_SHIPMENT">Unknown Shipment</option>
+              <option value="EXPIRED_RATE_CARD">Expired Rate Card</option>
+              <option value="WEIGHT_TIER_MISMATCH">Weight Tier Mismatch</option>
+              <option value="DUPLICATE_SURCHARGE">Duplicate Surcharge</option>
+              <option value="INVALID_ACCESSORIAL">Invalid Accessorial</option>
+              <option value="DUPLICATE_INVOICE">Duplicate Invoice</option>
+              <option value="EXCESS_CREDIT">Excess Credit Note</option>
+            </select>
+          </div>
+
+          <div style="font-size: 0.8rem; color: var(--text-muted);" id="table-count-label">
+            Loading invoices...
+          </div>
+        </div>
+
+        <!-- Invoices Data Table -->
+        <div class="table-responsive">
+          <table class="data-table" id="invoices-table">
+            <thead>
+              <tr>
+                <th>Invoice ID</th>
+                <th>Shipment ID</th>
+                <th>Carrier</th>
+                <th>Invoice Date</th>
+                <th>Billed Total</th>
+                <th>Expected Total</th>
+                <th>Variance</th>
+                <th>Decision</th>
+                <th>Identified Discrepancies</th>
+              </tr>
+            </thead>
+            <tbody id="invoices-table-body">
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 2rem; color: var(--text-dim);">Loading invoice records...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab 2: Exceptions & Disputes -->
+    <div id="tab-exceptions" class="tab-content">
+      <section class="workbench">
+        <div class="workbench-toolbar">
+          <h2 style="font-size: 1rem; font-weight: 700;">Logged Audit Exceptions & Dispute Cases</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Explainable line-level discrepancies flagged for analyst resolution</span>
+        </div>
+        <div class="table-responsive" id="exceptions-container">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab 3: Credit Notes -->
+    <div id="tab-credits" class="tab-content">
+      <section class="workbench">
+        <div class="workbench-toolbar">
+          <h2 style="font-size: 1rem; font-weight: 700;">Carrier Credit Notes & Settlement Reconciliation</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Reconciling credit memos against approved dispute amounts (flags excess credits)</span>
+        </div>
+        <div class="table-responsive" id="credits-container">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab 4: Model Evaluation -->
+    <div id="tab-evaluation" class="tab-content">
+      <section class="workbench" style="padding: 1.5rem;" id="evaluation-container">
+        <!-- Populated dynamically -->
+      </section>
+    </div>
+
+    <!-- Tab 5: Integrity Checks -->
+    <div id="tab-validation" class="tab-content">
+      <section class="workbench" style="padding: 1.5rem;" id="validation-container">
+        <!-- Populated dynamically -->
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Master-Detail 360° Trace Drawer Modal -->
+  <div class="drawer-overlay" id="drawer-overlay">
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-invoice-id">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h2 id="drawer-invoice-id">FINV-2026-000000</h2>
+            <div id="drawer-status-badge"></div>
+          </div>
+          <p>Full 360° 3-Way Match & Line Item Reconciliation Trace</p>
+        </div>
+        <button class="drawer-close" id="btn-close-drawer" aria-label="Close Drawer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Drawer Content Scrollable Area -->
+      <div class="drawer-body" id="drawer-content">
+        <!-- Dynamic detail sections -->
+      </div>
+
+      <!-- Drawer Footer Actions -->
+      <div class="drawer-footer">
+        <button class="btn btn-danger" id="drawer-action-dispute" title="Issue formal discrepancy dispute to carrier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Dispute Invoice
+        </button>
+        <button class="btn btn-secondary" id="drawer-action-credit" title="Request or record carrier credit note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Request Credit Memo
+        </button>
+        <button class="btn btn-success" id="drawer-action-approve" title="Approve invoice for payment settlement">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Approve Settlement
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
