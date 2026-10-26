@@ -89,19 +89,75 @@ Generation of the full 20,000 shipment dataset completes in **~3.9 seconds**!
 
 ---
 
+## 🌐 Public Cloud Deployment Guide
+
+To share your Freight Invoice Audit Dashboard with recruiters or stakeholders 24/7 without keeping your computer running, deploy it to a free public hosting platform.
+
+### Option 1: Render (Recommended — 100% Free Tier & Auto-Deploy)
+
+Render natively supports Python web applications and continuously deploys changes whenever you push to your GitHub repository.
+
+1. **Push your code to GitHub**:
+   Ensure all changes and deployment files (`render.yaml`, `Procfile`, `Dockerfile`) are committed and pushed:
+   ```bash
+   git add .
+   git commit -m "feat: add production cloud deployment configuration"
+   git push origin main
+   ```
+2. **Sign up on Render**:
+   - Go to [render.com](https://render.com) and log in with your GitHub account.
+3. **Deploy with 1-Click Blueprint or New Web Service**:
+   - **Method A (Blueprint)**: In the Render Dashboard, click **New +** > **Blueprint**, select your repository (`aniskudachi/yotaflex_freight_audit`), and Render will automatically read [`render.yaml`](file:///c:/Users/anisk/OneDrive/Desktop/yotaflex_freight_audit/render.yaml) and configure everything.
+   - **Method B (Manual Web Service)**:
+     - Click **New +** > **Web Service**.
+     - Connect `https://github.com/aniskudachi/yotaflex_freight_audit`.
+     - **Runtime**: `Python 3`
+     - **Build Command**: `python -m pip install -r requirements.txt && python src/load_sqlite.py`
+     - **Start Command**: `python src/app.py --host 0.0.0.0 --port $PORT`
+     - **Instance Type**: `Free`
+     - Click **Create Web Service**.
+4. **Access the Public Dashboard**:
+   Once the build completes (usually ~1–2 minutes), Render gives you an active public URL:
+   `https://yotaflex-freight-audit.onrender.com`
+
+---
+
+### Option 2: Railway
+
+1. Go to [railway.com](https://railway.com) and log in with GitHub.
+2. Click **New Project** > **Deploy from GitHub repo** > select `yotaflex_freight_audit`.
+3. Railway automatically detects [`Procfile`](file:///c:/Users/anisk/OneDrive/Desktop/yotaflex_freight_audit/Procfile) and [`Dockerfile`](file:///c:/Users/anisk/OneDrive/Desktop/yotaflex_freight_audit/Dockerfile).
+4. Go to **Settings** > **Generate Domain** to get your public `https://*.up.railway.app` URL.
+
+---
+
+### Option 3: Docker Container
+
+Build and run anywhere (Fly.io, AWS App Runner, Google Cloud Run, Azure Container Apps, or locally):
+
+```bash
+# Build production container
+docker build -t yotaflex-freight-audit .
+
+# Run container on port 8080
+docker run -d -p 8080:8080 -e PORT=8080 --name freight-audit yotaflex-freight-audit
+```
+
+---
+
 ## 🧪 Running the Automated Test Suite
 
 The test suite is compatible with both Python's built-in `unittest` runner and `pytest`:
 
 ```bash
-# Run with Python built-in unittest (zero dependencies required)
+# Run with Python built-in unittest (zero external dependencies required)
 python -m unittest discover -s tests -p "test_*.py" -v
 
 # Or run with pytest (if installed)
-pytest tests/ -v
+python -m pytest tests/ -v
 ```
 
-### Test Suite Coverage:
+### Test Suite Coverage (12 Automated Tests):
 1. `test_starter_generation_and_audit`: Verifies end-to-end pipeline execution and output artifact generation.
 2. `test_reproducibility_same_seed`: Confirms identical SHA-256 digests across dual generation runs.
 3. `test_validation_integrity_rules`: Asserts all 40 data quality and referential integrity checks pass.
@@ -109,6 +165,11 @@ pytest tests/ -v
 5. `test_dimensional_weight_formula`: Asserts $\text{dim\_weight} = (L \times W \times H)/5000$ and $\text{chargeable} = \max(\text{actual}, \text{dim})$.
 6. `test_credit_note_excess_dispute`: Verifies excess credit detection against approved dispute limits.
 7. `test_sqlite_queryability`: Confirms relational joins across invoices, shipments, and rate cards.
+8. `test_health_endpoints`: Validates `/health` and `/healthz` cloud orchestrator probes.
+9. `test_static_assets_serving`: Verifies HTML, CSS, and JS static asset delivery.
+10. `test_api_summary`: Validates executive metrics calculation and ground truth isolation scoring.
+11. `test_api_invoices`: Tests multi-criteria filtering and pagination.
+12. `test_api_carriers`: Verifies carrier master record retrieval.
 
 ---
 

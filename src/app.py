@@ -14,7 +14,10 @@ import subprocess
 import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
-from http.server import BaseHTTPRequestHandler, HTTPServer
+try:
+    from http.server import ThreadingHTTPServer as ServerClass, BaseHTTPRequestHandler
+except ImportError:
+    from http.server import HTTPServer as ServerClass, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -56,6 +59,16 @@ class FreightAuditHandler(BaseHTTPRequestHandler):
             self.send_error(404, "File Not Found")
             return
         mime_type, _ = mimetypes.guess_type(str(path))
+        if path.suffix == ".js":
+            mime_type = "application/javascript"
+        elif path.suffix == ".css":
+            mime_type = "text/css"
+        elif path.suffix == ".html":
+            mime_type = "text/html"
+        elif path.suffix == ".json":
+            mime_type = "application/json"
+        elif path.suffix == ".svg":
+            mime_type = "image/svg+xml"
         mime_type = mime_type or "application/octet-stream"
         content = path.read_bytes()
         self.send_response(200)
@@ -75,6 +88,14 @@ class FreightAuditHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
         query = parse_qs(parsed.query)
+
+        # Health check endpoints for cloud hosts and container orchestrators
+        if path in ("/health", "/healthz"):
+            return self._send_json({
+                "status": "healthy",
+                "service": "freight-audit",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
 
         # Static assets
         if path == "/" or path == "/index.html":
@@ -267,13 +288,44 @@ class FreightAuditHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, "Action Not Found")
 
-def start_server(port=8080):
-    server_address = ("127.0.0.1", port)
-    httpd = HTTPServer(server_address, FreightAuditHandler)
-    print(f"============================================================")
-    print(f" Freight Audit & Settlement System running at:")
-    print(f" http://127.0.0.1:{port}")
-    print(f"============================================================")
+def ensure_data_and_db():
+    """Ensure starter data, audit outputs, and SQLite database are generated on boot."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 1. Ensure core synthetic data exists
+    if not (DATA_DIR / "freight_invoice.csv").exists():
+        print("[INIT] Core data missing. Generating starter dataset...")
+        cmd_gen = [sys.executable, str(ROOT_DIR / "src/generate_data.py"), "--scale", "starter", "--out", str(DATA_DIR)]
+        subprocess.run(cmd_gen, check=True)
+
+    # 2. Ensure audit outputs and metrics exist
+    if not (OUT_DIR / "metrics.json").exists() or not (OUT_DIR / "audit_results.csv").exists():
+        print("[INIT] Audit results missing. Executing rule-based audit engine...")
+        cmd_aud = [sys.executable, str(ROOT_DIR / "src/audit_invoices.py"), "--data", str(DATA_DIR), "--out", str(OUT_DIR)]
+        subprocess.run(cmd_aud, check=True)
+
+    # 3. Ensure SQLite database is loaded
+    if not (OUT_DIR / "freight_audit.db").exists():
+        print("[INIT] SQLite database missing. Building relational tables...")
+        cmd_sql = [sys.executable, str(ROOT_DIR / "src/load_sqlite.py"), "--data", str(DATA_DIR), "--db", str(OUT_DIR / "freight_audit.db"), "--outputs", str(OUT_DIR)]
+        subprocess.run(cmd_sql, check=False)
+
+def start_server(host=None, port=None):
+    ensure_data_and_db()
+
+    host = host or os.environ.get("HOST", "0.0.0.0")
+    if port is None:
+        port = int(os.environ.get("PORT", "8080"))
+
+    server_address = (host, port)
+    httpd = ServerClass(server_address, FreightAuditHandler)
+    display_host = "localhost" if host in ("0.0.0.0", "127.0.0.1", "") else host
+    print("=" * 60)
+    print(" YotaFlex Freight Audit & Settlement System running at:")
+    print(f" http://{display_host}:{port}")
+    print(f" Bound to network interface {host}:{port}")
+    print("=" * 60)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -282,6 +334,7 @@ def start_server(port=8080):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start Freight Audit Web Server")
-    parser.add_argument("--port", type=int, default=8080, help="Port to listen on")
+    parser.add_argument("--host", default=os.environ.get("HOST", "0.0.0.0"), help="Host address to bind to (default: 0.0.0.0 or $HOST)")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", "8080")), help="Port to listen on (default: 8080 or $PORT)")
     args = parser.parse_args()
-    start_server(args.port)
+    start_server(host=args.host, port=args.port)
